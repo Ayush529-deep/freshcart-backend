@@ -569,3 +569,10 @@ app.get("/alladdresses", async (req, res) => {
 app.listen(8080, () => {
   console.log("node server start at 8080");
 });
+
+
+app.get("/",(req,res)=>{
+  res.json({
+    status:true
+  })
+})
