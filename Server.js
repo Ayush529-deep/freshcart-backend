@@ -30,70 +30,70 @@ mongoose.connect("mongodb+srv://Iti:Y3j0ohOIvrI8VJxN@cluster0.sltjpd7.mongodb.ne
   });
 
 //signup----------------
-app.post("/signup", async (req, res) => {
+// app.post("/signup", async (req, res) => {
   //   console.log(req.body)
 
-  let ouruser = req.body.signupdata;
+//   let ouruser = req.body.signupdata;
 
-  let a = await Users.insertOne({
-    firstname: ouruser.firstname,
-    lastname: ouruser.lastname,
-    email: ouruser.email,
-    password: ouruser.password,
-  });
+//   let a = await Users.insertOne({
+//     firstname: ouruser.firstname,
+//     lastname: ouruser.lastname,
+//     email: ouruser.email,
+//     password: ouruser.password,
+//   });
 
-  let result = await a.save();
+//   let result = await a.save();
 
-  if (result) {
-    res.json({
-      status: true,
-    });
-  } else {
-    res.json({
-      status: false,
-    });
-  }
-});
-
-
-// app.post("/signup", async (req, res) => {
-//   try {
-//     let ouruser = req.body;  // <- signupdata हटा दो क्योंकि आप frontend से flat object भेज रहे हो
-
-//     let a = new Users({
-//       firstname: ouruser.firstname,
-//       lastname: ouruser.lastname,
-//       email: ouruser.email,
-//       password: ouruser.password,
+//   if (result) {
+//     res.json({
+//       status: true,
 //     });
-
-//     let result = await a.save();
-
-//     if (result) {
-//       res.json({ status: true });
-//     } else {
-//       res.json({ status: false });
-//     }
-
-//   } catch (error) {
-//     console.error("Signup Error:", error);
-//     res.status(500).json({ status: false, error: "Signup failed." });
+//   } else {
+//     res.json({
+//       status: false,
+//     });
 //   }
 // });
+
+
+app.post("/signup", async (req, res) => {
+  try {
+    let ouruser = req.body;  // <- signupdata हटा दो क्योंकि आप frontend से flat object भेज रहे हो
+
+    let a = new Users({
+      firstname: ouruser.firstname,
+      lastname: ouruser.lastname,
+      email: ouruser.email,
+      password: ouruser.password,
+    });
+
+    let result = await a.save();
+
+    if (result) {
+      res.json({ status: true });
+    } else {
+      res.json({ status: false });
+    }
+
+  } catch (error) {
+    console.error("Signup Error:", error);
+    res.status(500).json({ status: false, error: "Signup failed." });
+  }
+});
 
 
 
 
 
 // GET all signup users
-// app.get("/signup", async (req, res) => {
-//   try {
-//     let data = await Users.find(); // Assuming Users is a Mongoose model
-//     res.json(data);
-//   } catch (err) {
-//     res.status(500).json({ error: "Internal Server Error" });
-//   }
-// });
+app.get("/signup", async (req, res) => {
+  try {
+    let data = await Users.find(); // Assuming Users is a Mongoose model
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
 
 
@@ -149,36 +149,72 @@ app.post("/resetpassword", async (req, res) => {
 });
 
 //addproduct api--------
-app.post("/addproduct", async (req, res) => {
+// app.post("/addproduct", async (req, res) => {
   // console.log(req.body)
 
-  let productdata = await Productschema.insertOne({
-    Producttitle: req.body.product.Producttitle,
-    Productweight: req.body.product.Productweight,
-    Productimage: req.body.product.Productimage,
-    Productimage2: req.body.product.Productimage2,
-    Productimage3: req.body.product.Productimage3,
-    Productdescription: req.body.product.Productdescription,
-    Productcategory: req.body.product.Productcategory,
-    Productquantity: req.body.product.Productquantity,
-    Regularprice: req.body.product.Regularprice,
-    Saleprice: req.body.product.Saleprice,
-  });
+//   let productdata = await Productschema.insertOne({
+//     Producttitle: req.body.product.Producttitle,
+//     Productweight: req.body.product.Productweight,
+//     Productimage: req.body.product.Productimage,
+//     Productimage2: req.body.product.Productimage2,
+//     Productimage3: req.body.product.Productimage3,
+//     Productdescription: req.body.product.Productdescription,
+//     Productcategory: req.body.product.Productcategory,
+//     Productquantity: req.body.product.Productquantity,
+//     Regularprice: req.body.product.Regularprice,
+//     Saleprice: req.body.product.Saleprice,
+//   });
 
-  let result = await productdata.save();
+//   let result = await productdata.save();
 
-  if (result) {
+//   if (result) {
+//     res.json({
+//       status: true,
+//       msg: "Addproduct success",
+//     });
+//   } else {
+//     res.json({
+//       status: false,
+//       msg: "failed to addproduct",
+//     });
+//   }
+// });
+
+
+
+app.post("/addproduct", async (req, res) => {
+  try {
+    const productdata = new Productschema({
+      Producttitle: req.body.product.Producttitle,
+      Productweight: req.body.product.Productweight,
+      Productimage: req.body.product.Productimage,
+      Productimage2: req.body.product.Productimage2,
+      Productimage3: req.body.product.Productimage3,
+      Productdescription: req.body.product.Productdescription,
+      Productcategory: req.body.product.Productcategory,
+      Productquantity: req.body.product.Productquantity,
+      Regularprice: req.body.product.Regularprice,
+      Saleprice: req.body.product.Saleprice,
+    });
+
+    const result = await productdata.save();
+
     res.json({
       status: true,
       msg: "Addproduct success",
+      data: result,
     });
-  } else {
-    res.json({
+  } catch (error) {
+    console.error("AddProduct Error:", error);
+    res.status(500).json({
       status: false,
-      msg: "failed to addproduct",
+      msg: "Failed to add product",
     });
   }
 });
+
+
+
 
 //products--------------------------------
 app.get("/products", async (req, res) => {
@@ -250,36 +286,72 @@ app.post("/editproduct", async (req, res) => {
 
 // wishlist--------------
 
-app.post("/wishlist", async (req, res) => {
+// app.post("/wishlist", async (req, res) => {
   // console.log(req.body)
 
-  let ourproduct = req.body.a;
+//   let ourproduct = req.body.a;
 
-  let a = await wishlistschema.insertOne({
-    Producttitle: ourproduct.Producttitle,
-    Productweight: ourproduct.Productweight,
-    Productimage: ourproduct.Productimage,
-    Productimage2: ourproduct.Productimage2,
-    Productimage3: ourproduct.Productimage3,
-    Productdescription: ourproduct.Productdescription,
-    Productcategory: ourproduct.Productcategory,
-    Productquantity: ourproduct.Productquantity,
-    Regularprice: ourproduct.Regularprice,
-    Saleprice: ourproduct.Saleprice,
-  });
+//   let a = await wishlistschema.insertOne({
+//     Producttitle: ourproduct.Producttitle,
+//     Productweight: ourproduct.Productweight,
+//     Productimage: ourproduct.Productimage,
+//     Productimage2: ourproduct.Productimage2,
+//     Productimage3: ourproduct.Productimage3,
+//     Productdescription: ourproduct.Productdescription,
+//     Productcategory: ourproduct.Productcategory,
+//     Productquantity: ourproduct.Productquantity,
+//     Regularprice: ourproduct.Regularprice,
+//     Saleprice: ourproduct.Saleprice,
+//   });
 
-  let result = await a.save();
+//   let result = await a.save();
 
-  if (result) {
-    res.json({
-      status: true,
+//   if (result) {
+//     res.json({
+//       status: true,
+//     });
+//   } else {
+//     res.json({
+//       status: false,
+//     });
+//   }
+// });
+
+
+
+
+app.post("/wishlist", async (req, res) => {
+  try {
+    let ourproduct = req.body.a;
+
+    let a = new wishlistschema({
+      Producttitle: ourproduct.Producttitle,
+      Productweight: ourproduct.Productweight,
+      Productimage: ourproduct.Productimage,
+      Productimage2: ourproduct.Productimage2,
+      Productimage3: ourproduct.Productimage3,
+      Productdescription: ourproduct.Productdescription,
+      Productcategory: ourproduct.Productcategory,
+      Productquantity: ourproduct.Productquantity,
+      Regularprice: ourproduct.Regularprice,
+      Saleprice: ourproduct.Saleprice,
     });
-  } else {
-    res.json({
-      status: false,
-    });
+
+    let result = await a.save();
+
+    res.json({ status: true });
+  } catch (error) {
+    console.error("Wishlist Error:", error);
+    res.status(500).json({ status: false });
   }
 });
+
+
+
+
+
+
+
 
 // wishlistproduct--------------
 
@@ -386,36 +458,75 @@ app.post("/deletewishlistproduct", async (req, res) => {
 
 
 
+
+
+
+
+
+
+
+
 // cart -----------------
-app.post("/cart",async(req,res)=>{
+// app.post("/cart",async(req,res)=>{
   
   // console.log(req.body)
 
-    let ourcart = req.body.cartitem
-    let a = await Cartitem.insertOne({
-        Producttitle: ourcart.Producttitle,
-        Productcategory: ourcart.Productcategory,
-        Productweight: ourcart.Productweight,
-        Productquantity: ourcart.Productquantity,
-        Productimage: ourcart.Productimage,
-        Productdescription: ourcart.Productdescription,
-        Regularprice: ourcart.Regularprice,
-        Saleprice: ourcart.Saleprice
-    })
+//     let ourcart = req.body.cartitem
+//     let a = await Cartitem.insertOne({
+//         Producttitle: ourcart.Producttitle,
+//         Productcategory: ourcart.Productcategory,
+//         Productweight: ourcart.Productweight,
+//         Productquantity: ourcart.Productquantity,
+//         Productimage: ourcart.Productimage,
+//         Productdescription: ourcart.Productdescription,
+//         Regularprice: ourcart.Regularprice,
+//         Saleprice: ourcart.Saleprice
+//     })
 
-    let result = await a.save()
+//     let result = await a.save()
 
-    if (result) {
-        res.json({
-            status: true
-        })
-    }
-    else {
-        res.json({
-            status: false
-        })
-    }
-})
+//     if (result) {
+//         res.json({
+//             status: true
+//         })
+//     }
+//     else {
+//         res.json({
+//             status: false
+//         })
+//     }
+// })
+
+
+
+
+
+app.post("/cart", async (req, res) => {
+  try {
+    let ourcart = req.body.cartitem;
+
+    let a = new Cartitem({
+      Producttitle: ourcart.Producttitle,
+      Productcategory: ourcart.Productcategory,
+      Productweight: ourcart.Productweight,
+      Productquantity: ourcart.Productquantity,
+      Productimage: ourcart.Productimage,
+      Productdescription: ourcart.Productdescription,
+      Regularprice: ourcart.Regularprice,
+      Saleprice: ourcart.Saleprice,
+    });
+
+    let result = await a.save();
+
+    res.json({ status: true });
+  } catch (error) {
+    console.error("Cart Error:", error);
+    res.status(500).json({ status: false });
+  }
+});
+
+
+
 
 
 
@@ -497,27 +608,50 @@ app.post("/updatequantity",async(req,res)=>{
 
 // product review-----------------
 
-app.post("/productreview", async (req, res) => {
+// app.post("/productreview", async (req, res) => {
   // console.log(req.body)
 
-  let a = await Reviews.insertOne({
-    productid: req.body.id,
-    name: req.body.review.fullname,
-    review: req.body.review.review,
-  });
+//   let a = await Reviews.insertOne({
+//     productid: req.body.id,
+//     name: req.body.review.fullname,
+//     review: req.body.review.review,
+//   });
 
-  let result = await a.save();
+//   let result = await a.save();
 
-  if (result) {
-    res.json({
-      status: true,
+//   if (result) {
+//     res.json({
+//       status: true,
+//     });
+//   } else {
+//     res.json({
+//       status: false,
+//     });
+//   }
+// });
+
+
+
+
+app.post("/productreview", async (req, res) => {
+  try {
+    let a = new Reviews({
+      productid: req.body.id,
+      name: req.body.review.fullname,
+      review: req.body.review.review,
     });
-  } else {
-    res.json({
-      status: false,
-    });
+
+    let result = await a.save();
+
+    res.json({ status: true });
+  } catch (error) {
+    console.error("Review Error:", error);
+    res.status(500).json({ status: false });
   }
 });
+
+
+
 
 
 
@@ -546,31 +680,61 @@ app.get("/allreview", async (req, res) => {
 
 
 // addaddress-----------
+// app.post("/addaddress", async (req, res) => {
+
+//     let ouraddress = req.body.address
+//     let a = await address.insertOne({
+//         firstname: ouraddress.firstname,
+//         lastname: ouraddress.lastname,
+//         address1: ouraddress.address1,
+//         address2: ouraddress.address2,
+//         city: ouraddress.city,
+//         mobilenumber: ouraddress.mobilenumber,
+//     })
+
+//     let result = await a.save()
+
+//     if (result) {
+//         res.json({
+//             status: true
+//         })
+//     }
+//     else {
+//         res.json({
+//             status: false
+//         })
+//     }
+// })
+
+
+
+
+
 app.post("/addaddress", async (req, res) => {
+  try {
+    let ouraddress = req.body.address;
 
-    let ouraddress = req.body.address
-    let a = await address.insertOne({
-        firstname: ouraddress.firstname,
-        lastname: ouraddress.lastname,
-        address1: ouraddress.address1,
-        address2: ouraddress.address2,
-        city: ouraddress.city,
-        mobilenumber: ouraddress.mobilenumber,
-    })
+    let a = new address({
+      firstname: ouraddress.firstname,
+      lastname: ouraddress.lastname,
+      address1: ouraddress.address1,
+      address2: ouraddress.address2,
+      city: ouraddress.city,
+      mobilenumber: ouraddress.mobilenumber,
+    });
 
-    let result = await a.save()
+    let result = await a.save();
 
-    if (result) {
-        res.json({
-            status: true
-        })
-    }
-    else {
-        res.json({
-            status: false
-        })
-    }
-})
+    res.json({ status: true });
+  } catch (error) {
+    console.error("Add Address Error:", error);
+    res.status(500).json({ status: false });
+  }
+});
+
+
+
+
 
 
 
