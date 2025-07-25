@@ -22,9 +22,7 @@ const address = require("./model/address")
 
 //mongodb-------------
 const { default: mongoose } = require("mongoose");
-mongoose
-  .connect("mongodb://localhost:27017/freshcart")
-  .then(() => {
+mongoose.connect("mongodb+srv://Iti:Y3j0ohOIvrI8VJxN@cluster0.sltjpd7.mongodb.net/freshcart").then(() => {
     console.log("mongodb connect");
   })
   .catch((err) => {
@@ -569,6 +567,8 @@ app.get("/alladdresses", async (req, res) => {
 app.listen(8080, () => {
   console.log("node server start at 8080");
 });
+
+
 
 
 app.get("/",(req,res)=>{
