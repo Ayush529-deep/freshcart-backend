@@ -30,70 +30,70 @@ mongoose.connect("mongodb+srv://Iti:Y3j0ohOIvrI8VJxN@cluster0.sltjpd7.mongodb.ne
   });
 
 //signup----------------
-// app.post("/signup", async (req, res) => {
+app.post("/signup", async (req, res) => {
   //   console.log(req.body)
 
-//   let ouruser = req.body.signupdata;
+  let ouruser = req.body.signupdata;
 
-//   let a = await Users.insertOne({
-//     firstname: ouruser.firstname,
-//     lastname: ouruser.lastname,
-//     email: ouruser.email,
-//     password: ouruser.password,
-//   });
+  let a = await Users.insertOne({
+    firstname: ouruser.firstname,
+    lastname: ouruser.lastname,
+    email: ouruser.email,
+    password: ouruser.password,
+  });
 
-//   let result = await a.save();
+  let result = await a.save();
 
-//   if (result) {
-//     res.json({
-//       status: true,
-//     });
-//   } else {
-//     res.json({
-//       status: false,
-//     });
-//   }
-// });
-
-
-app.post("/signup", async (req, res) => {
-  try {
-    let ouruser = req.body;  // <- signupdata हटा दो क्योंकि आप frontend से flat object भेज रहे हो
-
-    let a = new Users({
-      firstname: ouruser.firstname,
-      lastname: ouruser.lastname,
-      email: ouruser.email,
-      password: ouruser.password,
+  if (result) {
+    res.json({
+      status: true,
     });
-
-    let result = await a.save();
-
-    if (result) {
-      res.json({ status: true });
-    } else {
-      res.json({ status: false });
-    }
-
-  } catch (error) {
-    console.error("Signup Error:", error);
-    res.status(500).json({ status: false, error: "Signup failed." });
+  } else {
+    res.json({
+      status: false,
+    });
   }
 });
+
+
+// app.post("/signup", async (req, res) => {
+//   try {
+//     let ouruser = req.body;  // <- signupdata हटा दो क्योंकि आप frontend से flat object भेज रहे हो
+
+//     let a = new Users({
+//       firstname: ouruser.firstname,
+//       lastname: ouruser.lastname,
+//       email: ouruser.email,
+//       password: ouruser.password,
+//     });
+
+//     let result = await a.save();
+
+//     if (result) {
+//       res.json({ status: true });
+//     } else {
+//       res.json({ status: false });
+//     }
+
+//   } catch (error) {
+//     console.error("Signup Error:", error);
+//     res.status(500).json({ status: false, error: "Signup failed." });
+//   }
+// });
 
 
 
 
 
 // GET all signup users
-app.get("/signup", async (req, res) => {
-  try {
-    let data = await Users.find(); // Assuming Users is a Mongoose model
-    res.json(data);
-  } catch (err) {
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
+// app.get("/signup", async (req, res) => {
+//   try {
+//     let data = await Users.find(); // Assuming Users is a Mongoose model
+//     res.json(data);
+//   } catch (err) {
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// });
 
 
 
