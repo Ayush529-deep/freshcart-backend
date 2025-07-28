@@ -24,7 +24,7 @@ const address = require("./model/address")
 
 //mongodb-------------
 const { default: mongoose } = require("mongoose");
-mongoose.connect("mongodb+srv://Iti:Y3j0ohOIvrI8VJxN@cluster0.sltjpd7.mongodb.net/freshcart").then(() => {
+mongoose.connect("mongodb+srv://Ayush:6rsvhmvwisTn040c@cluster.fryf78w.mongodb.net/freshcart").then(() => {
     console.log("mongodb connect");
   })
   .catch((err) => {
