@@ -127,9 +127,7 @@ app.post("/resetpassword", async (req, res) => {
 
 //addproduct api--------
 app.post("/addproduct", async (req, res) => {
-  console.log(req.body)
-
-  let productdata = await Productschema.insertOne({
+  let productdata = new Productschema({
     Producttitle: req.body.product.Producttitle,
     Productweight: req.body.product.Productweight,
     Productimage: req.body.product.Productimage,
@@ -141,22 +139,10 @@ app.post("/addproduct", async (req, res) => {
     Regularprice: req.body.product.Regularprice,
     Saleprice: req.body.product.Saleprice,
   });
-
   let result = await productdata.save();
-
-  if (result) {
-    res.json({
-      status: true,
-      msg: "Addproduct success",
-    });
-  } else {
-    res.json({
-      status: false,
-      msg: "failed to addproduct",
-    });
-  }
+  if (result) res.json({ status: true, msg: "Addproduct success" });
+  else res.json({ status: false, msg: "failed to addproduct" });
 });
-
 
 
 
@@ -232,12 +218,10 @@ app.post("/editproduct", async (req, res) => {
 
 // wishlist--------------
 
+// wishlist--------------
 app.post("/wishlist", async (req, res) => {
-  // console.log(req.body)
-
   let ourproduct = req.body.a;
-
-  let a = await wishlistschema.insertOne({
+  let a = new wishlistschema({
     Producttitle: ourproduct.Producttitle,
     Productweight: ourproduct.Productweight,
     Productimage: ourproduct.Productimage,
@@ -249,18 +233,9 @@ app.post("/wishlist", async (req, res) => {
     Regularprice: ourproduct.Regularprice,
     Saleprice: ourproduct.Saleprice,
   });
-
   let result = await a.save();
-
-  if (result) {
-    res.json({
-      status: true,
-    });
-  } else {
-    res.json({
-      status: false,
-    });
-  }
+  if (result) res.json({ status: true });
+  else res.json({ status: false });
 });
 
 
@@ -385,36 +360,23 @@ app.post("/deletewishlistproduct", async (req, res) => {
 
 
 
-// cart -----------------
-app.post("/cart",async(req,res)=>{
-  
-  // console.log(req.body)
-
-    let ourcart = req.body.cartitem
-    let a = await Cartitem.insertOne({
-        Producttitle: ourcart.Producttitle,
-        Productcategory: ourcart.Productcategory,
-        Productweight: ourcart.Productweight,
-        Productquantity: ourcart.Productquantity,
-        Productimage: ourcart.Productimage,
-        Productdescription: ourcart.Productdescription,
-        Regularprice: ourcart.Regularprice,
-        Saleprice: ourcart.Saleprice
-    })
-
-    let result = await a.save()
-
-    if (result) {
-        res.json({
-            status: true
-        })
-    }
-    else {
-        res.json({
-            status: false
-        })
-    }
-})
+// cart-----------------
+app.post("/cart", async (req, res) => {
+  let ourcart = req.body.cartitem;
+  let a = new Cartitem({
+    Producttitle: ourcart.Producttitle,
+    Productcategory: ourcart.Productcategory,
+    Productweight: ourcart.Productweight,
+    Productquantity: ourcart.Productquantity,
+    Productimage: ourcart.Productimage,
+    Productdescription: ourcart.Productdescription,
+    Regularprice: ourcart.Regularprice,
+    Saleprice: ourcart.Saleprice,
+  });
+  let result = await a.save();
+  if (result) res.json({ status: true });
+  else res.json({ status: false });
+});
 
 
 
@@ -498,28 +460,17 @@ app.post("/updatequantity",async(req,res)=>{
 
 
 
+
 // product review-----------------
-
 app.post("/productreview", async (req, res) => {
-  // console.log(req.body)
-
-  let a = await Reviews.insertOne({
+  let a = new Reviews({
     productid: req.body.id,
     name: req.body.review.fullname,
     review: req.body.review.review,
   });
-
   let result = await a.save();
-
-  if (result) {
-    res.json({
-      status: true,
-    });
-  } else {
-    res.json({
-      status: false,
-    });
-  }
+  if (result) res.json({ status: true });
+  else res.json({ status: false });
 });
 
 
@@ -557,30 +508,19 @@ app.get("/allreview", async (req, res) => {
 
 // addaddress-----------
 app.post("/addaddress", async (req, res) => {
-
-    let ouraddress = req.body.address
-    let a = await address.insertOne({
-        firstname: ouraddress.firstname,
-        lastname: ouraddress.lastname,
-        address1: ouraddress.address1,
-        address2: ouraddress.address2,
-        city: ouraddress.city,
-        mobilenumber: ouraddress.mobilenumber,
-    })
-
-    let result = await a.save()
-
-    if (result) {
-        res.json({
-            status: true
-        })
-    }
-    else {
-        res.json({
-            status: false
-        })
-    }
-})
+  let ouraddress = req.body.address;
+  let a = new address({
+    firstname: ouraddress.firstname,
+    lastname: ouraddress.lastname,
+    address1: ouraddress.address1,
+    address2: ouraddress.address2,
+    city: ouraddress.city,
+    mobilenumber: ouraddress.mobilenumber,
+  });
+  let result = await a.save();
+  if (result) res.json({ status: true });
+  else res.json({ status: false });
+});
 
 
 
