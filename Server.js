@@ -37,14 +37,14 @@ app.post("/signup", async (req, res) => {
 
   let ouruser = req.body.signupdata;
 
-  let a = await Users.insertOne({
-    firstname: ouruser.firstname,
-    lastname: ouruser.lastname,
-    email: ouruser.email,
-    password: ouruser.password,
-  });
-
-  let result = await a.save();
+// ✅ Naya signup
+let a = new Users({
+  firstname: ouruser.firstname,
+  lastname: ouruser.lastname,
+  email: ouruser.email,
+  password: ouruser.password,
+})
+let result = await a.save()
 
   if (result) {
     res.json({
