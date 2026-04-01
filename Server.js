@@ -32,28 +32,29 @@ mongoose.connect("mongodb+srv://Ayush:6rsvhmvwisTn040c@cluster.fryf78w.mongodb.n
   });
 
 //signup----------------
+
+
 app.post("/signup", async (req, res) => {
-  //   console.log(req.body)
+  try {
+    let ouruser = req.body.signupdata;
 
-  let ouruser = req.body.signupdata;
+    if (!ouruser) {
+      return res.status(400).json({ status: false, msg: "No data received" });
+    }
 
-// ✅ Naya signup
-let a = new Users({
-  firstname: ouruser.firstname,
-  lastname: ouruser.lastname,
-  email: ouruser.email,
-  password: ouruser.password,
-})
-let result = await a.save()
-
-  if (result) {
-    res.json({
-      status: true,
+    let a = new Users({
+      firstname: ouruser.firstname,
+      lastname: ouruser.lastname,
+      email: ouruser.email,
+      password: ouruser.password,
     });
-  } else {
-    res.json({
-      status: false,
-    });
+    let result = await a.save();
+
+    if (result) res.json({ status: true });
+    else res.json({ status: false });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ status: false, msg: err.message });
   }
 });
 
@@ -77,29 +78,33 @@ let result = await a.save()
 
 
 //login---------------------
+
+
 app.post("/login", async (req, res) => {
-  // console.log(req.body)
+  try {
+    let ouruser = req.body.logindata;
+    
+    if (!ouruser || !ouruser.email || !ouruser.password) {
+      return res.status(400).json({ status: false, msg: "Email and password required" });
+    }
 
-  let ouruser = req.body.logindata;
-
-  let a = await Users.findOne({
-    email: ouruser.email,
-    password: ouruser.password,
-  });
-
-  // console.log(a)
-
-  if (a) {
-    res.json({
-      status: true,
-      logedin: a,
+    let a = await Users.findOne({
+      email: ouruser.email,
+      password: ouruser.password,
     });
-  } else {
-    res.json({
-      status: false,
-    });
+
+    if (a) {
+      res.json({ status: true, logedin: a });
+    } else {
+      res.json({ status: false, msg: "Invalid credentials" });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ status: false, msg: err.message });
   }
 });
+
+    
 
 //reset password---------------------
 app.post("/resetpassword", async (req, res) => {
